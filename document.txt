@@ -1,0 +1,177 @@
+Gemini Chatbot Single Page Application Documentation
+
+Project Overview:
+This is a Single Page Application (SPA) built with vanilla HTML, CSS, and JavaScript that integrates Google's Gemini API to create a simple chatbot interface. Users can type messages, send them, and receive responses from the Gemini AI model.
+
+Code:
+
+1. index.html - The main HTML structure for the chat interface.
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Chatbot</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="chat-container">
+        <div id="chat-messages" class="chat-messages"></div>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+2. style.css - CSS for styling the chat UI.
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.chat-container {
+    width: 400px;
+    height: 600px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 80%;
+}
+
+.user-message {
+    background-color: #007bff;
+    color: white;
+    align-self: flex-end;
+    margin-left: auto;
+}
+
+.bot-message {
+    background-color: #e9ecef;
+    color: black;
+}
+
+.input-container {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+
+#user-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#send-button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+#send-button:hover {
+    background-color: #0056b3;
+}
+
+3. script.js - JavaScript for handling user input and API integration.
+
+const API_KEY = 'YOUR_API_KEY'; // Replace with your actual Gemini API key
+const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
+
+const chatMessages = document.getElementById('chat-messages');
+const userInput = document.getElementById('user-input');
+const sendButton = document.getElementById('send-button');
+
+sendButton.addEventListener('click', sendMessage);
+userInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        sendMessage();
+    }
+});
+
+function sendMessage() {
+    const message = userInput.value.trim();
+    if (message === '') return;
+
+    // Display user message
+    displayMessage(message, 'user');
+    userInput.value = '';
+
+    // Send to Gemini API
+    fetchGeminiResponse(message);
+}
+
+function displayMessage(text, sender) {
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message', sender + '-message');
+    messageDiv.textContent = text;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+async function fetchGeminiResponse(prompt) {
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{
+                        text: prompt
+                    }]
+                }]
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('API request failed');
+        }
+
+        const data = await response.json();
+        const botResponse = data.candidates[0].content.parts[0].text;
+        displayMessage(botResponse, 'bot');
+    } catch (error) {
+        console.error('Error:', error);
+        displayMessage('Sorry, I encountered an error. Please try again.', 'bot');
+    }
+}
+
+Output:
+The application features a modern chat interface with a header displaying the title, a dark mode toggle button (moon/sun emoji), and a clear chat button (trash emoji). The container is semi-transparent white on an animated gradient purple background with a subtle dotted pattern, interactive animated floating particles that scale and brighten on hover, rising bubbles that float upwards, and a neural network visualization with pulsing nodes and glowing connections representing AI processing. On load, a welcome message from the bot appears. Messages include user/bot avatars (👤/🤖), text bubbles, and timestamps. User messages appear in gradient purple bubbles on the right with slide-in animations, bot responses in light gray bubbles on the left. A typing indicator with animated bouncing dots shows while waiting for the bot's response. Messages slide in smoothly, the send button has a rocket emoji with hover and active effects, and buttons scale on hover. A scroll-to-bottom button appears when scrolled up. The input auto-focuses on load, and the UI is responsive with smooth scrolling. Dark mode switches to a dark theme with animated blue-gray gradients, inverted colors, a faint dotted pattern, dimmed floating particles, dimmed bubbles, and dimmed neural network elements.
+
+Webpage Link:
+file:///c:/Users/Admin/Downloads/learn/gemini-chatbot/index.html
+
+To run: Open index.html in a web browser. The API key is already set. If you encounter errors, ensure your Google Cloud project has billing enabled and the Gemini API is activated. Obtain a new API key from https://makersuite.google.com/app/apikey if needed, and replace in script.js.
+
+Upload this document to Prolearn and the Drive link as instructed.

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Chatbot</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    <div class="chat-container">
+        <header class="chat-header">
+            <h1>Gemini Chatbot</h1>
+            <div class="header-buttons">
+                <button id="dark-mode-button">🌙</button>
+                <button id="clear-button">🗑️</button>
+            </div>
+        </header>
+        <div id="chat-messages" class="chat-messages">
+            <button id="scroll-to-bottom" class="scroll-to-bottom" style="display: none;">⬇️</button>
+        </div>
+        <div id="typing-indicator" class="typing-indicator" style="display: none;">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button id="send-button">🚀</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
